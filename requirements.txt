@@ -4,5 +4,8 @@ python-dotenv
 scikit-learn
 dill
 setuptools
+sqlalchemy
+pypyodbc
+python-dotenv
 
 # -e .
