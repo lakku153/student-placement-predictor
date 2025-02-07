@@ -28,6 +28,7 @@ class DatabaseManager:
             self.conn = pypyodbc.connect(self.connection_string)
             self.cursor = self.conn.cursor()
             logging.info("Database connection established successfully!")
+            return self.conn
         except Exception as e:
             raise Exceptionhandle(e,sys)
 
