@@ -1,0 +1,25 @@
+columns:
+  - StudentID: int64
+  - CGPA: float64
+  - Internships: int64
+  - Projects: int64
+  - Certifications: int64
+  - AptitudeTestScore: int64
+  - SoftSkillsRating: float64
+  - ExtracurricularActivities: object
+  - PlacementTraining: object
+  - SSC_Marks: int64
+  - HSC_Marks: int64
+  - PlacementStatus: object
+
+numerical_columns:
+  - StudentID
+  - CGPA
+  - Internships
+  - Projects
+  - Certifications
+  - AptitudeTestScore
+  - SoftSkillsRating
+  - SSC_Marks
+  - HSC_Marks
+ 

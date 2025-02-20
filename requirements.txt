@@ -7,5 +7,6 @@ setuptools
 sqlalchemy
 pypyodbc
 python-dotenv
-
+pyaml
+ipykernel
 # -e .
