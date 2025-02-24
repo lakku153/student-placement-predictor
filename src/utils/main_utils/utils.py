@@ -58,7 +58,7 @@ def load_object(file_path):
             print(file_obj)
             return pickle.load(file_obj)
     except Exception as e:
-        raise NetworkSecurityException(e,sys)
+        raise Exceptionhandle(e,sys)
 
 def load_numpy_array_data(file_path):
     try:

@@ -36,6 +36,11 @@ class BinaryEncoder(BaseEstimator, TransformerMixin):
                 if col in X.columns:
                     X[col] = X[col].map({'Yes': 1, 'No': 0})  # Convert Yes -> 1, No -> 0
         return X
+    def get_feature_names_out(self, input_features=None):
+        """
+        Ensures compatibility with ColumnTransformer.
+        """
+        return np.array(self.binary_columns) if self.binary_columns else np.array([])
 
 
 class DataTransformation:
@@ -100,21 +105,47 @@ class DataTransformation:
             logging.info("Initialized label encoder")
             target_feature_train_df=label_encoder.fit_transform(target_feature_train_df.values.ravel())
             target_feature_test_df=label_encoder.transform(target_feature_test_df.values.ravel())
-            # print(target_feature_train_df)
+            
+
             logging.info("Target columns converted into integer values")
+            original_cols=list(input_feature_train_df.columns)
+            numeric_columns = ['aptitudetestscore','ssc_marks', 'hsc_marks']
+            cat_columns=['extracurricularactivities','placementtraining']
+            remain_cols=[col for col in original_cols if col not in numeric_columns+cat_columns]
+            all_feature_names = [*numeric_columns,*cat_columns,*remain_cols]
+            logging.info(f"All feature names {all_feature_names}")
 
             preprocessor=self.get_data_transformer_object()
-            preprocessor_object=preprocessor.fit(input_feature_train_df)
-            transformed_input_train_feature=preprocessor_object.transform(input_feature_train_df)
-            transformed_input_test_feature=preprocessor_object.transform(input_feature_test_df)
-            train_arr=np.c_[transformed_input_train_feature,np.array(target_feature_train_df)]
-            test_arr=np.c_[transformed_input_test_feature,np.array(target_feature_test_df)]
+            
+            # Apply transformation
+            transformed_train = preprocessor.fit_transform(input_feature_train_df)
+            transformed_test = preprocessor.transform(input_feature_test_df)
+            
+            # Convert to DataFrame with correct column names
+            transformed_train_df = pd.DataFrame(transformed_train, columns=all_feature_names)
+            transformed_test_df = pd.DataFrame(transformed_test, columns=all_feature_names)
+            
+            
+            transformed_train_df['placementstatus']=target_feature_train_df
+            transformed_test_df['placementstatus']=target_feature_test_df
+            
+            logging.info("converting the datatype of some columns")
+            transformed_train_df=transformed_train_df.astype({'aptitudetestscore':'float64',  'ssc_marks':'float64',  'hsc_marks':'float64',  'extracurricularactivities':'int32',  'placementtraining':'int32',  'cgpa':'float32',  'internships':'int32',  'projects':'int32',  'certifications':'int32',  'softskillsrating':'float32',  'placementstatus':'int32'})
+            transformed_test_df=transformed_test_df.astype({'aptitudetestscore':'float64',  'ssc_marks':'float64',  'hsc_marks':'float64',  'extracurricularactivities':'int32',  'placementtraining':'int32',  'cgpa':'float32',  'internships':'int32',  'projects':'int32',  'certifications':'int32',  'softskillsrating':'float32',  'placementstatus':'int32'})
+            logging.info("Converted the data type of columns")
+            print(transformed_test_df.head(1))
+                      
             logging.info("Saving train array and test array after the preprocessing pipeline")
-            #save numpy array data
-            save_numpy_array_data(self.data_transformation_config.transformed_train_file_path,array=train_arr)
-            save_numpy_array_data(self.data_transformation_config.transformed_test_file_path,array=test_arr)
+
+            dir_path=os.path.dirname(self.data_transformation_config.transformed_train_file_path)
+            os.makedirs(dir_path,exist_ok=True)
+            dir_path=os.path.dirname(self.data_transformation_config.transformed_train_file_path)
+            os.makedirs(dir_path,exist_ok=True)
+            transformed_train_df.to_csv(self.data_transformation_config.transformed_train_file_path,index=False,header=True, float_format="%.3f")
+            transformed_test_df.to_csv(self.data_transformation_config.transformed_test_file_path,index=False,header=True,float_format="%.3f")
+            
             logging.info("Saved train array and test array after the preprocessing pipeline")
-            save_object(self.data_transformation_config.transformed_object_file_path,preprocessor_object)
+            save_object(self.data_transformation_config.transformed_object_file_path,preprocessor)
 
             #preparing artifacts
             data_transformation_artifact=DataTransformationArtifact(

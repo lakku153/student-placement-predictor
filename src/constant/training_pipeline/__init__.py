@@ -50,9 +50,9 @@ DATA_TRANSFORMATION_TRANSFORMED_OBJECT_DIR: str = "transformed_object"
 
 # ## kkn imputer to replace nan values
 
-DATA_TRANSFORMATION_TRAIN_FILE_PATH: str = "train.npy"
+DATA_TRANSFORMATION_TRAIN_FILE_PATH: str = "train.csv"
 
-DATA_TRANSFORMATION_TEST_FILE_PATH: str = "test.npy"
+DATA_TRANSFORMATION_TEST_FILE_PATH: str = "test.csv"
 
 
 # """
