@@ -1,4 +1,4 @@
-from networksecurity.constant.training_pipeline import SAVED_MODEL_DIR,MODEL_FILE_NAME,MODEL_FILE_NAME
+from src.constant.training_pipeline import SAVED_MODEL_DIR,MODEL_FILE_NAME,MODEL_FILE_NAME
 
 import os,sys
 
@@ -18,4 +18,4 @@ class PlacedModel:
             y_hat=self.model.predict(x_transform)
             return y_hat
         except Exception as e:
-            raise NetworkSecurityException(e,sys)
+            raise Exceptionhandle(e,sys)

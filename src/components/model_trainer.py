@@ -1,7 +1,8 @@
 import os
 import sys
+import pandas as pd
 
-from src.exception.exception import NetworkSecurityException
+from src.exception.exception import Exceptionhandle
 from src.logging.logger import logging
 
 from src.entity.artifact_entity import DataTransformationArtifact,ModelTrainerArtifact
@@ -101,14 +102,14 @@ class ModelTrainer:
             test_file_path=self.data_transformation_artifact.transformed_test_file_path
 
             # loading training array and testing array
-            train_arr=load_numpy_array_data(train_file_path)
-            test_arr=load_numpy_array_data(test_file_path)
+            train_arr=pd.read_csv(train_file_path)
+            test_arr=pd.read_csv(test_file_path)
 
             x_train,y_train,x_test,y_test=(
-                train_arr[:,:-1],
-                train_arr[:,-1],
-                test_arr[:,:-1],
-                test_arr[:,-1],
+                train_arr.drop(columns=['placementstatus']),
+                train_arr['placementstatus'],
+                test_arr.drop(columns=['placementstatus']),
+                test_arr['placementstatus'],
             )
 
             model_trainer_artifact=self.train_model(x_train,y_train,x_test,y_test)
