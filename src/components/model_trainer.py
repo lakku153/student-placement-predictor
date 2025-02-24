@@ -73,6 +73,7 @@ class ModelTrainer:
             list(model_report.values()).index(best_model_score)
         ]
         best_model=models[best_model_name]
+        logging.info(f"Best model name is {best_model_name} and best model score is {best_model_score}")
 
         y_train_pred=best_model.predict(X_train)
         classification_train_metric=get_classification_score(y_true=y_train,y_pred=y_train_pred)
@@ -88,7 +89,9 @@ class ModelTrainer:
         os.makedirs(model_dir_path,exist_ok=True)
 
         Placed_Model=PlacedModel(preprocessor=preprocessor,model=best_model)
-        save_object(self.model_trainer_config.trained_model_file_path,obj=PlacedModel)
+        save_object(self.model_trainer_config.trained_model_file_path,obj=Placed_Model)
+
+        save_object("final_model/model.pkl",best_model)
 
         ## model trainer artifact
         model_trainer_artifact=ModelTrainerArtifact(trained_model_file_path=self.model_trainer_config.trained_model_file_path,train_metric_artifact=classification_train_metric,test_metric_artifact=classification_test_metric)

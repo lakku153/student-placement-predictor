@@ -147,6 +147,8 @@ class DataTransformation:
             logging.info("Saved train array and test array after the preprocessing pipeline")
             save_object(self.data_transformation_config.transformed_object_file_path,preprocessor)
 
+            save_object("final_model/preprocessor.pkl",preprocessor)
+
             #preparing artifacts
             data_transformation_artifact=DataTransformationArtifact(
                 transformed_object_file_path=self.data_transformation_config.transformed_object_file_path,

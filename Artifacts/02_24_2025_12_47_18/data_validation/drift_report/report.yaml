@@ -1,0 +1,36 @@
+aptitudetestscore:
+  drift_status: false
+  p_value: 0.7803919264038955
+certifications:
+  drift_status: false
+  p_value: 0.9963601919303606
+cgpa:
+  drift_status: false
+  p_value: 0.7882173431097003
+extracurricularactivities:
+  drift_status: false
+  p_value: 1.0
+hsc_marks:
+  drift_status: true
+  p_value: 0.46158493409313933
+internships:
+  drift_status: false
+  p_value: 0.9988502781814351
+placementstatus:
+  drift_status: false
+  p_value: 0.9999999967429405
+placementtraining:
+  drift_status: false
+  p_value: 0.9999999999999578
+projects:
+  drift_status: false
+  p_value: 0.9810739207100523
+softskillsrating:
+  drift_status: true
+  p_value: 0.06050263496651364
+ssc_marks:
+  drift_status: false
+  p_value: 0.9685840897521284
+studentid:
+  drift_status: true
+  p_value: 0.3559353565136812
