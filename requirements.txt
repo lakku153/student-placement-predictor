@@ -9,4 +9,6 @@ pypyodbc
 python-dotenv
 pyaml
 ipykernel
+flask
+
 # -e .
