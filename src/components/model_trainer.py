@@ -22,7 +22,7 @@ from sklearn.ensemble import(
     GradientBoostingClassifier,
     RandomForestClassifier
 )
-
+from xgboost import XGBClassifier
 
 class ModelTrainer:
     def __init__(self,model_trainer_config:ModelTrainerConfig,data_transformation_artifact:DataTransformationArtifact):
@@ -38,7 +38,8 @@ class ModelTrainer:
                 "Decision Tree":DecisionTreeClassifier(),
                 "Gradient Boosting":GradientBoostingClassifier(verbose=1),
                 "Logistic Regression":LogisticRegression(verbose=1),
-                "AdaBoost":AdaBoostClassifier()
+                "AdaBoost":AdaBoostClassifier(),
+                "XgBoost":XGBClassifier(use_label_encoder=False, eval_metric='mlogloss', verbosity=1)
         }
         params={
             "Decision Tree":{
@@ -48,22 +49,28 @@ class ModelTrainer:
             },
             "Random Forest":{
                 'criterion':['gini','entropy','log_loss'],
-                'n_estimators':[8,16,32,64,128,256],
+                'n_estimators':[8,16,32,64],
                 'max_features':['sqrt','log2',None]
             },
             "Gradient Boosting":{
                 'criterion':['squared_error','friedman_mse'],
-                'max_features':[None,'sqrt','log2'],
-                'n_estimators':[8,16,32,64,128,256],
+                'n_estimators':[8,16,32,64],
                 'loss':['log_loss','exponential'],
                 'learning_rate':[.1,.01,.05,.001],
-                'subsample':[0.6,0.7,0.75,0.8,0.85,0.9],
+                
             },
             "Logistic Regression":{},
             "AdaBoost":{
-                'n_estimators':[8,16,32,64,128,256],
+                'n_estimators':[8,16,32,64],
                 'learning_rate':[.1,.01,.05,.001],
             },
+             "XGBoost": {
+                'n_estimators': [100, 200, 300],
+                'max_depth': [3, 5, 7],
+                'learning_rate': [0.01, 0.1, 0.2],
+                'subsample': [0.8, 1.0],
+                'colsample_bytree': [0.8, 1.0]
+            }
 
         }
         model_report:dict=evaluate_models(X_train=X_train,y_train=y_train,X_test=X_test,y_test=y_test,models=models,param=params)
@@ -104,15 +111,15 @@ class ModelTrainer:
             train_file_path=self.data_transformation_artifact.transformed_train_file_path
             test_file_path=self.data_transformation_artifact.transformed_test_file_path
 
-            # loading training array and testing array
-            train_arr=pd.read_csv(train_file_path)
-            test_arr=pd.read_csv(test_file_path)
+             # loading training array and testing array
+            train_arr=load_numpy_array_data(train_file_path)
+            test_arr=load_numpy_array_data(test_file_path)
 
             x_train,y_train,x_test,y_test=(
-                train_arr.drop(columns=['placementstatus']),
-                train_arr['placementstatus'],
-                test_arr.drop(columns=['placementstatus']),
-                test_arr['placementstatus'],
+                train_arr[:,:-1],
+                train_arr[:,-1],
+                test_arr[:,:-1],
+                test_arr[:,-1],
             )
 
             model_trainer_artifact=self.train_model(x_train,y_train,x_test,y_test)

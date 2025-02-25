@@ -10,5 +10,6 @@ python-dotenv
 pyaml
 ipykernel
 flask
+xgboost
 
 # -e .
