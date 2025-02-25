@@ -33,7 +33,9 @@ def predict_datapoint():
 
         predict_pipe=predictpipeline()
         results=predict_pipe.predict_(pred_df)
-        return render_template('home.html',results=round(results[0],2))
+
+        placement_status = "The student probably will be Placed" if results[0] == 1 else "The student probably will not be Placed"
+        return render_template('home.html',results=placement_status)
 
 if __name__=='__main__':
     app.run(host='0.0.0.0',debug=True)

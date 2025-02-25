@@ -7,7 +7,7 @@
         <div class="mb-3">
             <label class="form-label">cgpa</label>
             <input class="form-control" type="number" name="cgpa"
-                placeholder="Enter your cgpa" min='0' max='10' step="any" required/>
+                placeholder="Enter your cgpa" min='0' max='10' step="0.1" required/>
         </div>
         <div class="mb-3">
             <label class="form-label">internships</label>
@@ -63,12 +63,12 @@
         <div class="mb-3">
             <label class="form-label">ssc_marks</label>
             <input class="form-control" type="number" step="1" name="ssc_marks"
-                placeholder="Enter ssc_marks" min='0' max='100' />
+                placeholder="Enter ssc_marks" min='0' max='100' required/>
         </div>
         <div class="mb-3">
             <label class="form-label">hsc_marks</label>
             <input class="form-control" type="number" step="1" name="hsc_marks"
-                placeholder="Enter hsc_marks" min='0' max='100' />
+                placeholder="Enter hsc_marks" min='0' max='100' required/>
         </div>
         
         <div class="mb-3">
@@ -76,7 +76,7 @@
         </div>
     </form>
     <h2>
-       The Placement Status is {{results}}
+       Placement Status: {{results}}
     </h2>
    <body>
 </html>

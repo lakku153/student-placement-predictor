@@ -39,18 +39,24 @@ class ModelTrainer:
                 "Gradient Boosting":GradientBoostingClassifier(verbose=1),
                 "Logistic Regression":LogisticRegression(verbose=1),
                 "AdaBoost":AdaBoostClassifier(),
-                "XgBoost":XGBClassifier(use_label_encoder=False, eval_metric='mlogloss', verbosity=1)
+                "XGBoost":XGBClassifier(eval_metric='mlogloss', verbosity=1)
         }
         params={
             "Decision Tree":{
                 'criterion':['gini','entropy','log_loss'],
                 'splitter':['best','random'],
                 'max_features':['sqrt','log2'],
+                'max_depth': [5, 10, 20],  
+                'min_samples_split': [5, 10],
+                'min_samples_leaf': [2, 5]
             },
             "Random Forest":{
                 'criterion':['gini','entropy','log_loss'],
-                'n_estimators':[8,16,32,64],
-                'max_features':['sqrt','log2',None]
+                'n_estimators':[50,100,200],
+                'max_depth': [5, 10, 20],  # Limit tree depth
+                'min_samples_split': [5, 10],  # Prevent small splits
+                'min_samples_leaf': [2, 5],  # Prevent small leaf nodes
+                'max_features':['sqrt','log2']
             },
             "Gradient Boosting":{
                 'criterion':['squared_error','friedman_mse'],
@@ -64,15 +70,13 @@ class ModelTrainer:
                 'n_estimators':[8,16,32,64],
                 'learning_rate':[.1,.01,.05,.001],
             },
-             "XGBoost": {
-                'n_estimators': [100, 200, 300],
-                'max_depth': [3, 5, 7],
-                'learning_rate': [0.01, 0.1, 0.2],
-                'subsample': [0.8, 1.0],
-                'colsample_bytree': [0.8, 1.0]
-            }
-
-        }
+            "XGBoost":{
+             'n_estimators': [100, 300, 500],
+            'max_depth': [3, 6, 10],
+            'learning_rate': [0.01, 0.1, 0.2],
+            'subsample': [0.8, 1.0],  # Prevents overfitting
+             'colsample_bytree': [0.8, 1.0],  # Prevents feature correlation
+        }}
         model_report:dict=evaluate_models(X_train=X_train,y_train=y_train,X_test=X_test,y_test=y_test,models=models,param=params)
 
         best_model_score=max(sorted(model_report.values()))
