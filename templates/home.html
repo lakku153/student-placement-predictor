@@ -1,82 +1,76 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>PLACEMENT PREDICTION</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
 <body>
-    <div class="login">
-       <h1>Student Placement Prediction</h1>
-   
-       <form action="{{ url_for('predict_datapoint')}}" method="post">
-        <div class="mb-3">
-            <label class="form-label">cgpa</label>
-            <input class="form-control" type="number" name="cgpa"
-                placeholder="Enter your cgpa" min='0' max='10' step="0.1" required/>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">internships</label>
-            <input class="form-control" type="number" name="internships"
-                placeholder="Enter no. of internships" min='0' max='10' required/>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">projects</label>
-            <input class="form-control" type="number" name="projects"
-                placeholder="Enter no. of projects" min='0' max='10' required/>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">certifications</label>
-            <input class="form-control" type="number" name="certifications"
-                placeholder="Enter no. of certifications" min='0' max='10' required/>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">aptitudetestscore</label>
-            <input class="form-control" type="number" name="aptitudetestscore"
-                placeholder="Enter aptitudetestscore" min='0' max='100' required/>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">softskillsrating</label>
-            <input class="form-control" type="number" name="softskillsrating"
-                placeholder="Enter softskillsrating" min='0' max='5' step="any" required/>
-        </div>
-        
-        <div class="mb-3">
-            <label class="form-label">extracurricularactivities</label>
-            <select class="form-control" name="extracurricularactivities" placeholder="Select" required>
-                <option class="placeholder" selected disabled value="">Select extracurricularactivities</option>
-                <option value="Yes">
-                    Yes
-                </option>
-                <option value="No">
-                    No
-                </option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">placementtraining</label>
-            <select class="form-control" name="placementtraining" placeholder="Select" required>
-                <option class="placeholder" selected disabled value="">Select placementtraining</option>
-                <option value="Yes">
-                    Yes
-                </option>
-                <option value="No">
-                    No
-                </option>
-            </select>
-        </div>
+    <div class="container">
+        <h1>Student Placement Prediction</h1>
 
-        <div class="mb-3">
-            <label class="form-label">ssc_marks</label>
-            <input class="form-control" type="number" step="1" name="ssc_marks"
-                placeholder="Enter ssc_marks" min='0' max='100' required/>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">hsc_marks</label>
-            <input class="form-control" type="number" step="1" name="hsc_marks"
-                placeholder="Enter hsc_marks" min='0' max='100' required/>
-        </div>
-        
-        <div class="mb-3">
-            <input class="btn btn-primary" type="submit" value="Predict your Placement Status" required />
-        </div>
-    </form>
-    <h2>
-       Placement Status: {{results}}
-    </h2>
-   <body>
+        <form action="{{ url_for('predict_datapoint') }}" method="post">
+            <div class="form-group">
+                <label class="form-label">CGPA</label>
+                <input class="form-control" type="number" name="cgpa" placeholder="Enter your CGPA" min="0" max="10" step="0.1" required />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Internships</label>
+                <input class="form-control" type="number" name="internships" placeholder="Enter no. of internships" min="0" max="10" required />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Projects</label>
+                <input class="form-control" type="number" name="projects" placeholder="Enter no. of projects" min="0" max="10" required />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Certifications</label>
+                <input class="form-control" type="number" name="certifications" placeholder="Enter no. of certifications" min="0" max="10" required />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Aptitude Test Score</label>
+                <input class="form-control" type="number" name="aptitudetestscore" placeholder="Enter aptitude test score" min="0" max="100" required />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Soft Skills Rating</label>
+                <input class="form-control" type="number" name="softskillsrating" placeholder="Enter soft skills rating" min="0" max="5" step="any" required />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Extracurricular Activities</label>
+                <select class="form-control" name="extracurricularactivities" required>
+                    <option selected disabled value="">Select extracurricular activities</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Placement Training</label>
+                <select class="form-control" name="placementtraining" required>
+                    <option selected disabled value="">Select placement training</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">SSC Marks</label>
+                <input class="form-control" type="number" name="ssc_marks" placeholder="Enter SSC marks" min="0" max="100" required />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">HSC Marks</label>
+                <input class="form-control" type="number" name="hsc_marks" placeholder="Enter HSC marks" min="0" max="100" required />
+            </div>
+
+            <div class="form-group">
+                <input class="btn" type="submit" value="Predict Your Placement Status" />
+            </div>
+        </form>
+    </div>
+</body>
 </html>
