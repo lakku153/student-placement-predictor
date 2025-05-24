@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Placement Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style2.css') }}">
+    <style>
+        .about-container {
+            background-color: #fff;
+            border-radius: 16px;
+            padding: 30px;
+            margin: 60px auto;
+            width: 80%;
+            max-width: 900px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-container h2 {
+            color: #222;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .about-container p {
+            color: #444;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        header h1 {
+            text-align: center;
+            padding-top: 30px;
+            color: #333;
+            font-size: 2.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>About This Project</h1>
+        </header>
+        <main>
+            <div class="about-container">
+                <h2>Welcome to the Placement Prediction System</h2>
+                <p>
+                    This project helps students assess their placement readiness based on academic and skill-based inputs.
+                    It uses a machine learning model trained on placement data to estimate the probability of getting placed.
+                </p>
+                <p>
+                    Based on your data, it offers personalized advice to improve areas like aptitude, soft skills,
+                    internships, projects, certifications, and training.
+                </p>
+                <p>
+                    Built using Python, Flask, and Machine Learning, this system serves as a smart assistant to guide you
+                    through your placement journey.
+                </p>
+                <br>
+                <a href="{{ url_for('index') }}"><button class="btn">Back to Home</button></a>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

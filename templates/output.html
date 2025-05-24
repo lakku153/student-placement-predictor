@@ -18,18 +18,24 @@
                 <div class="output">
                     <p>{{ results }}</p>
                 </div>
-
                 {% if advice %}
                 <div class="advice-box">
-                    <h3>Personalized Advice:</h3>
-                    <ul>
-                        {% for tip in advice %}
-                            <li>{{ tip }}</li>
-                        {% endfor %}
-                    </ul>
+                <h2>Personalized Advice:</h2>
+                <ul>
+                    {% for item, link in advice %}
+                        <li>
+                            {{ item }}
+                            {% if link %}
+                                <a href="{{ url_for('advice_page', topic=link) }}">
+                                    <!-- <button class="btn-small">Learn More</button> -->
+                                </a>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
                 </div>
                 {% endif %}
-
+                <br>
                 <form action="{{ url_for('predict_datapoint') }}">
                     <button class="btn" type="submit">Predict Again</button>
                 </form>

@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>PLACEMENT PREDICTION</title>
     <meta charset="UTF-8">
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/style1.css') }}"
-    />
+    <title>PLACEMENT PREDICTION</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style1.css') }}">
 </head>
 <body>
 
@@ -18,25 +15,26 @@
 
             <div class="menu">
                 <ul>
-                    <!-- <li><a href="/">HOME</a></li>
-                    <li><a href="/about">ABOUT</a></li> -->
-                    
-                    
+                    <li><a href="{{ url_for('index') }}">HOME</a></li>
+                    <li><a href="{{ url_for('about') }}">ABOUT</a></li>
                 </ul>
             </div>
-
-            
         </div> 
+
         <div class="content">
-            <h1>WELCOME TO<br><span>PLACEMENT</span><br>PREDICTION APP</h1>
-            <p class="par">A Placement Prediction App is a tool designed to assist individuals, usually students or 
-                job seekers , in predicting <br> or estimating their chances of securing a job or internship placement. 
-                This type of application typically leverages<br> various data points and algorithms to provide users 
-                with insights into their potential success in the job market.</p>
+            <h1>WELCOME TO<br><span>PLACEMENT</span><br>PREDICTION</h1>
+            <p class="par">
+                A Placement Prediction system is a digital tool aimed at helping students and job seekers assess 
+                their likelihood of securing employment or internships. It utilizes various data points and advanced 
+                algorithms to provide users with valuable insights into their chances of success in the job market. 
+                By analyzing key factors, it offers a predictive approach to career opportunities, making the job 
+                search more informed and strategic.
+            </p>
 
-                <button class="cn"><a href="/predict">PREDICT</a></button>
+            <button class="cn"><a href="{{ url_for('predict_datapoint') }}">PREDICT</a></button>
+        </div>
+    </div>
 
-                
     <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
 </body>
 </html>

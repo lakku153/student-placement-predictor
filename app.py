@@ -3,6 +3,7 @@ import pickle
 from src.pipeline.batch_prediction import customdata, predictpipeline
 from src.logging.logger import logging
 import pandas as pd
+import re
 
 application = Flask(__name__)
 app = application
@@ -14,6 +15,8 @@ def index():
 @app.route('/start')
 def start_predicting():
     return render_template('index.html')
+####
+
 
 @app.route('/predict', methods=['GET', 'POST'])
 def predict_datapoint():
@@ -34,7 +37,6 @@ def predict_datapoint():
         )
 
         pred_df = data.get_data_as_data_frame()
-        print(pred_df)
         logging.info(f"{pred_df.head()}")
 
         predict_pipe = predictpipeline()
@@ -42,21 +44,10 @@ def predict_datapoint():
 
         placement_status = "Congratualations !! You have high chances of getting placed \U0001F44D !!!" if results[0] == 1 else "Sorry !! You have low chances of getting placed \U0001F44E!!"
 
-        # ✅ Generate personalized advice using form data
-        user_data = {
-            "cgpa": float(request.form.get('cgpa')),
-            "internships": int(request.form.get('internships')),
-            "projects": int(request.form.get('projects')),
-            "certifications": int(request.form.get('certifications')),
-            "aptitudetestscore": int(request.form.get('aptitudetestscore')),
-            "softskillsrating": float(request.form.get('softskillsrating')),
-            "extracurricularactivities": request.form.get('extracurricularactivities'),
-            "placementtraining": request.form.get('placementtraining'),
-        }
+        # ✅ Advice must be generated here
+        advice_list = generate_advice(pred_df.iloc[0].to_dict())
 
-        advice = generate_advice(user_data)
-
-        return render_template('output.html', results=placement_status, advice=advice)
+        return render_template('output.html', results=placement_status, advice=advice_list)
 
 
 #  Personalized Advice Generator Function
@@ -64,32 +55,43 @@ def generate_advice(data):
     advice = []
 
     if data['cgpa'] < 7.0:
-        advice.append("Try to improve your CGPA to at least 7.0 for better chances.")
+        advice.append(("Try to improve your CGPA to at least 7.0.", None))
     else:
-        advice.append("Your CGPA is solid. Keep it up!")
+        advice.append(("Your CGPA is solid. Keep it up!", None))
 
     if data['internships'] < 1:
-        advice.append("Gaining at least one internship will strengthen your resume.")
+        advice.append(("Gain at least one internship to strengthen your resume.", None))
 
     if data['projects'] < 2:
-        advice.append("Working on more projects can showcase practical skills.")
+        advice.append(("Work on more projects to showcase skills.", None))
 
     if data['certifications'] < 2:
-        advice.append("Pursue additional certifications in your area of interest.")
+        advice.append(("Pursue additional certifications in your field.", None))
 
     if data['aptitudetestscore'] < 60:
-        advice.append("Consider practicing more aptitude problems.")
+        advice.append(("Practice more aptitude problems.", "apti"))
 
     if data['softskillsrating'] < 3:
-        advice.append("Focus on improving communication and soft skills.")
+        advice.append(("Improve your soft skills through communication exercises.", "softskills"))
 
     if data['placementtraining'] == "No":
-        advice.append("Consider enrolling in placement training sessions.")
+        advice.append(("Enroll in placement training sessions.", "training"))
 
     if data['extracurricularactivities'] == "No":
-        advice.append("Engage in extracurriculars to develop team and leadership skills.")
+        advice.append(("Engage in extracurricular activities to build leadership.", "extracurricular"))
 
     return advice
+
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+
+
+@app.route('/advice/<topic>')
+def advice_page(topic):
+    return render_template(f"{topic}.html")
 
 
 if __name__ == '__main__':
