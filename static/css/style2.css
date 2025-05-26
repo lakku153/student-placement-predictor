@@ -12,7 +12,7 @@ body, html {
     margin: 0;
     padding: 0;
     min-height: 100vh;
-    background-image: url('../images/img.jpg');
+    background-image: url('../images/img.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -114,4 +114,18 @@ h2 {
 .advice-box h3 {
     color: #f57c00;
     margin-bottom: 10px;
+}
+
+.btn-small {
+    padding: 6px 12px;
+    margin-left: 10px;
+    font-size: 0.85em;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.btn-small:hover {
+    background-color: #0056b3;
 }
